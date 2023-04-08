@@ -1,6 +1,7 @@
 import express from "express";
 import { MenuModel } from "../../database/menu";
 import { ImageModel } from "../../database/image";
+import { ValidateId } from "../../validation/common.validation";
 
 const Router = express.Router();
 
@@ -14,6 +15,7 @@ const Router = express.Router();
 Router.get("/list/:_id", async (req, res) => {
     try {
         const { _id } = req.params;
+        await ValidateId(req.params);
         const menus = await MenuModel.findById(_id);
         if (!menus) {
             return res.status(404).json({ error: "No menu present for this restaurant !!!" });

@@ -1,6 +1,7 @@
 import express from "express";
 import { UserModel } from "../../database/allModels";
 import passport from "passport";
+import { ValidateId } from "../../validation/common.validation";
 
 const Router = express.Router();
 
@@ -35,7 +36,7 @@ Router.get(
 Router.get("/:_id", passport.authenticate("jwt", { session: false }), async (req, res) => {
   try {
     const { _id } = req.params;
-
+    await ValidateId(req.params);
     const getUser = await UserModel.findById(_id);
 
     if (!getUser) {
